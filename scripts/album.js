@@ -26,7 +26,22 @@ var albumMarconi = {
          { title: 'Can you hear me now?', duration: '3:14' },
          { title: 'Wrong phone number', duration: '2:15'}
      ]
- };
+};
+
+var albumAlexander = {
+     title: 'The Aviators',
+     artist: 'George Alexander',
+     label: 'EM',
+     year: '2012',
+     albumArtUrl: 'assets/images/album_covers/03.png',
+     songs: [
+         { title: 'Follow me', duration: '3:12' },
+         { title: 'Fetch me a stick, would you', duration: '5:01' },
+         { title: 'Fungeon', duration: '3:21'},
+         { title: 'Field of Dreams?', duration: '3:14' },
+         { title: 'Just skip this song', duration: '2:15'}
+     ]
+};
 
 var createSongRow = function(songNumber, songName, songLength) {
     var template = 
@@ -40,19 +55,18 @@ var createSongRow = function(songNumber, songName, songLength) {
     return template;
 };
 
-var setCurrentAlbum = function(album) {
-    //#1
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
+var createAlbumView = function(album) {
     
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
     albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
     albumImage.setAttribute('src', album.albumArtUrl);
-    
     albumSongList.innerHTML = '';
     
     for (var i = 0; i < album.songs.length; i++) {
@@ -60,8 +74,21 @@ var setCurrentAlbum = function(album) {
      }
 };
 
-window.onload = function() {
-    setCurrentAlbum(albumPicasso);
+
+window.onload = function showAlbum() {
+    createAlbumView(albumPicasso); 
+    
+    var albums = [albumPicasso, albumMarconi, albumAlexander];
+    var index = 1;
+    albumImage.addEventListener('click', (event)=> {
+        createAlbumView(albums[index]);
+        index ++;
+        if (index == albums.length) {
+            index = 0;
+        }
+    });
 };
+
+
 
 
